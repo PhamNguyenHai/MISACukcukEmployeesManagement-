@@ -1,0 +1,144 @@
+@media(max-width: 1023px){
+    body{
+        font-size: 12px;
+    }
+
+    .header{
+        height: 35px;
+    }
+
+    .sidebar{
+        width: 0;
+    }
+
+    .main{
+        width: 100%;
+    }
+
+    .categories-icon{
+        width: 15px;
+    }
+
+    .sidebar-header{
+        position: relative;
+        left: 80px;
+    }
+
+    .sidebar-header-logo{
+        width: 80px;
+        margin-left: 20px;
+    }
+
+    .sidebar-header-option-icon{
+        width: 20px;
+    }
+
+    .sidebar-categories-list{
+        display: none;
+    }
+
+    .shop-name{
+        display: none;
+    }
+
+    .header{
+        justify-content: end;
+    }
+
+    .user-name, 
+    .user-option{
+        display: none;
+    }
+
+    .input-filter{
+        width: 150px;
+    }
+
+    .search-bar{
+        width: 250px;
+    }
+
+    .fn_btn{
+        padding: 15px 20px;
+    }
+
+    .sidebar-categories-list--mobile{
+        left: -15px;
+        display: block;
+        width: 100vw;
+        z-index: 1;
+        background-color: rgb(201, 200, 200);
+    }
+
+    .sidebar-categories-list--mobile li{
+        padding: 10px 0;
+        font-size: 18px;
+        padding-left: 3px;
+    }
+
+    .form-main-content{
+        justify-content: center;
+    }
+
+    .form-content{
+        flex-wrap: wrap;
+    }
+
+    .form-avatar{
+        margin: 0 auto;
+    }
+
+    .form-main{
+        padding-left: 0;
+    }
+
+    .form-footer{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    
+    .save-btn{
+        background-position-x: 90px;
+        margin-left: 0;
+        margin-left: 40px;
+    }
+
+    .mobile-width{
+        width: 60%;
+        padding: 20px 40px;
+    }
+
+    .cancel-btn{
+        margin-top: 10px;
+    }
+}
+
+@media(max-width: 739px){
+    .fn_btn{
+        padding: 15px 30px;
+    }
+
+    .input-filter{
+        width: 200px;
+    }
+
+    .search-bar{
+        width: 250px;
+    }
+
+    .footer{
+        flex-direction: column;
+    }
+
+    .navigation{
+        padding: 20px 0;
+    }
+
+    .form-input{
+        width: 200px;
+    }
+
+    select.form-input{
+        width: 210px;
+    }
+}

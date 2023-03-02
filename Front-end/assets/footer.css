@@ -1,0 +1,54 @@
+.display-record-number{
+    font-weight: 600;
+}
+
+.footer{
+    padding: 15px 20px 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.display-record{
+
+}
+
+.navigation{
+    display: flex;
+    align-items: center;
+}
+
+.navigation-page-number{
+    font-size: 15px;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: rgb(188, 188, 188);
+}
+
+.navigation-page-number:hover{
+    cursor: pointer;
+    color: #fff;
+    background-color: #2fbe8e;
+}
+
+.control-page{
+    font-size: 20px;
+    margin: 0 10px;
+    color: rgb(110, 110, 110);
+}
+
+.control-page:hover{
+    cursor: pointer;
+    color: #2fbe8e;
+}
+
+.navigation-page-number{
+    margin: 0 5px
+}
+
+.navigation-page-space{
+    font-size: 25px;
+    padding: 0 5px;
+}

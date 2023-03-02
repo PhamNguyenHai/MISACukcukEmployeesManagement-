@@ -1,0 +1,102 @@
+.form{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(214, 214, 214, 0.4);
+    width: 70%;
+    background-color: #fff;
+    margin: 10px auto;
+    display: none;
+}
+
+.form-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.form-header-heading{
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.form-close-btn{
+    display: block;
+}   
+
+.form-content{
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    
+}
+
+.form-avatar{
+    border: 1px solid;
+    width: 200px;
+    border-radius: 100%;
+    margin: 30px 20px;
+}
+
+.form-main{
+    padding-left: 80px;
+    box-sizing: border-box;
+}
+
+.form-main-heading{
+    margin: 10px 0;
+}
+
+.form-main-a{
+    
+}
+
+.form-main-b{
+    margin-top: 30px;
+}
+
+.form-main-content{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-area{
+    padding: 15px 10px;
+}
+
+.form-area label{
+    display: block;
+}
+
+.form-input{
+    width: 300px;
+    height: 30px;
+    padding-left: 10px;
+}
+
+select.form-input{
+    width: 315px;
+    border: 1px solid #000;
+}
+
+.error-message{
+    display: block;
+    color: red;
+}
+
+.form-footer{
+    background-color: rgb(215, 215, 215);
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+}
+
+.save-btn{
+    background-image: url("../Resource/icon/save-32.png");
+    background-size: 20px;
+    margin-left: 10px;
+    margin-right: 40px;
+}
+
+.invalid .form-input{
+    border-color: red;
+}

@@ -1,0 +1,89 @@
+@import url("../assets/base.css");
+@import url("../assets/sidebar.css");
+@import url("../assets/contentFunction.css");
+@import url("../assets/contentTable.css");
+@import url("../assets/footer.css");
+@import url("../assets/formEmployee.css");
+@import url("../assets/dialog.css");
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    font-family: Misa Font;
+}
+
+.app{
+    height: 100vh;
+    display: flex;
+    position: relative;
+}
+
+.main{
+    width: 85%;
+}
+
+/*Header*/
+.header{
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+}
+
+.shop-name{
+    width: 300px;
+    height: 35px;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar{
+    width: 33px;
+}
+
+.user-name{
+    margin: 0 5px;
+    font-size: 15px;
+    cursor: default;
+}
+
+.user-option{
+    width: 20px;
+}
+
+/*Content header*/
+.content{
+    padding: 0 20px;
+}
+
+.content-header{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+}   
+
+.content-header-heading{
+    font-weight: 500;
+    cursor: default;
+}
+
+.insert-btn{
+    background-image: url("../Resource/icon/add.png");
+}
+
+.overlay{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(214, 214, 214, 0.4);
+    display: none;
+}

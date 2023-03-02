@@ -1,0 +1,47 @@
+.content-table{
+    margin: 15px 0;
+    height: 440px;
+    overflow-y: scroll;
+    border: 1px solid rgb(203, 203, 203);
+    user-select: none;
+    font-size: 14px;
+}
+
+table{
+    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead{
+    height: 40px;
+}
+
+th{
+    color: #010002;
+    background-color: rgb(207, 207, 207);
+    position: sticky;
+    top: 0;
+    cursor: default;
+}
+
+tr{
+    height: 40px;
+    border-bottom: 1px solid;
+}
+
+tbody tr:hover{
+    cursor: pointer;
+    color: #fff;
+    background-color: #019160;
+}
+
+.row-selected{
+    background-color: rgb(250, 244, 65);
+    color:rgb(0, 177, 163);
+}
+
+.row-selected:hover{
+    background-color: rgb(250, 244, 65);
+    color:rgb(0, 177, 163);
+}

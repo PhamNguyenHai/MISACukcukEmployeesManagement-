@@ -1,0 +1,45 @@
+.content-function{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content-function-filter{
+
+}
+
+.search-bar{
+    width: 250px;
+    padding-left: 25px;
+    background-image: url("../Resource/icon/search.png");
+    background-repeat: no-repeat;
+    background-position-x: 3px;
+    background-position-y: center;
+}
+
+.position-combobox{
+
+}
+
+.department-combobox{
+    
+}
+
+.content-function-btn{
+
+}
+
+.delete-btn{
+    background-image: url("../Resource/icon/delete.png");
+    background-size: 18px;
+}
+
+.duplicate-btn{
+    background-image: url("../Resource/icon/duplicate.png");
+    background-size: 28px;
+}
+
+.refresh-btn{
+    background-image: url("../Resource/icon/refresh.png");
+    background-size: 25px;
+}

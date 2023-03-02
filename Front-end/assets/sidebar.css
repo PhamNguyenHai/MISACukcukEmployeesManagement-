@@ -1,0 +1,52 @@
+.sidebar{
+    width: 220px;
+    border-right: 1px solid gray;
+}
+
+.sidebar-header{
+    width: 100%;
+    padding-top: 10px;
+    display: flex;
+    align-items:flex-end;
+    justify-content: space-evenly;
+}
+
+.sidebar-header-option{
+    position: relative;
+}
+
+.sidebar-header-option-icon{
+    width: 25px;
+}
+
+.sidebar-header-logo{
+    width: 150px;
+    padding-right: 10px;
+}
+
+.sidebar-categories-list{
+    margin-top: 15px;
+    width: 210px;
+    position: absolute;
+    top: 30px;
+    left: -5px;
+}
+
+.categories-icon{
+    width: 24px;
+    padding-right: 5px;
+}
+
+.sidebar-categories-list li{
+    height: 35px;
+    list-style: none;
+}
+
+.sidebar-categories-list li a{
+    padding-left: 10px;
+    text-decoration: none;
+    color: #000;
+    line-height: 35px;
+    display: flex;
+    align-items: center;
+}

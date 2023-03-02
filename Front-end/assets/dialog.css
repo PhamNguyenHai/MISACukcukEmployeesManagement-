@@ -1,0 +1,87 @@
+.dialog{
+    display: none;
+    margin: 200px auto;
+    width: 400px;
+    background-color: #fff;
+    box-shadow: 1px 2px 1px 2px #ccc;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+}
+
+.dialog-content{
+    padding: 40px 20px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content:flex-start;
+}
+
+.dialog-icon{
+    margin-right: 20px;
+}
+
+.dialog-icon i{
+    font-size: 35px;
+}
+
+.dialog-message{
+
+}
+
+.dialog-footer{
+    display: flex;
+    justify-content: flex-end;
+    align-items:flex-end;
+    padding: 10px 20px;
+}  
+
+.conform-btn{
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: red;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.dialog--success .dialog-icon i{
+    color: rgb(32, 160, 32);
+}
+
+.dialog--success .conform-btn{
+    color: #fff;
+    background-color: rgb(32, 160, 32);
+}
+
+.dialog--success .conform-btn:hover{
+    background-color: rgba(32, 160, 32, 0.7);
+
+}
+
+.dialog--danger .dialog-icon i{
+    color: rgb(237, 0, 0);
+}
+
+.dialog--danger .conform-btn{
+    color: #fff;
+    background-color: rgb(237, 0, 0);
+}
+
+.dialog--danger .conform-btn:hover{
+    background-color: rgba(237, 0, 0, 0.7);
+}
+
+.dialog--infor .dialog-icon i{
+    color: rgb(25, 17, 188);
+}
+
+.dialog--infor .conform-btn{
+    color: #fff;
+    background-color: rgb(25, 17, 188);
+}
+
+.dialog--infor .conform-btn:hover{
+    background-color: rgba(25, 17, 188, 0.7);
+}

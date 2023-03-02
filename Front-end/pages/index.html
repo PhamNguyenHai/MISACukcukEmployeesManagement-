@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../Resource/cukcuk-logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../fontawesome-free-6.3.0-web/css/all.min.css">
+    <link rel="stylesheet" href="../assets/responsive.css">
+    <title>MISA Cukcuk</title>
+</head>
+<body>
+    <div class="app">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-header-option">
+                    <img class="sidebar-header-option-icon" src="../Resource/img/toggle.png" alt="">
+                    <ul class="sidebar-categories-list">
+                        <li>
+                            <a href="#">
+                                <img class="categories-icon" src="../Resource/icon/dashboard.png" alt="">
+                                Tổng quan
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="categories-icon" src="../Resource/icon/report.png" alt="">
+                                Báo cáo
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="categories-icon" src="../Resource/icon/document-online.png" alt="">
+                                Mua hàng
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="categories-icon" src="../Resource/icon/dic-employee.png" alt="">
+                                Danh mục nhân viên
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="categories-icon" src="../Resource/icon/setting.png" alt="">
+                                Thiết lập hệ thống
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <img class="sidebar-header-logo" src="../Resource/cukcuk-logo.png" alt="">
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="header">
+                <select class="shop-name" name="" id="">
+                    <option value="">Nhà hàng Biển Xanh</option>
+                </select>
+
+                <div class="user">
+                    <img class="user-avatar" src="../Resource/icon/avatar-default.png" alt="">
+                    <h3 class="user-name">Nguyen Hai</h3>
+                    <img class="user-option" src="../Resource/icon/option.png" alt="">
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="content-header">
+                    <h2 class="content-header-heading">Danh sách nhân viên</h2>
+                    <button class="insert-btn special-btn">Thêm nhân viên</button>
+                </div>
+
+                <div class="content-function">
+                    <div class="content-function-filter">
+                        <input class="search-bar input-filter" type="text" placeholder="Tìm kiếm theo mã, tên hoặc số điện thoại">
+                        <select class="position-combobox input-filter" name="" id="">
+                            <option value="">--- Chọn vị trí ---</option>
+                        </select>
+                        <select class="department-combobox input-filter" name="" id="">
+                            <option value="">--- Chọn phòng ban ---</option>
+                        </select>
+                    </div>
+                    <div class="content-function-btn">
+                        <button class="delete-btn fn_btn"></button>
+                        <button class="duplicate-btn fn_btn"></button>
+                        <button class="refresh-btn fn_btn"></button>
+                    </div>
+                </div>
+
+                <div class="content-table">
+                    <table>
+                        <thead>
+                            <th field="employeeCode">Mã nhân viên</th>
+                            <th field="employeeName">Họ và tên</th>
+                            <th field="gender">Giới tính</th>
+                            <th field="dateOfBirth">Ngày sinh</th>
+                            <th field="phoneNumber">Điện thoại</th>
+                            <th field="email">Email</th>
+                            <th field="positionName">Chức vụ</th>
+                            <th field="departmentName">Phòng ban</th>
+                            <th field="salary">Lương cơ bản</th>
+                            <th field="workStatus">Tình trạng công việc</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="footer">
+                <span class="display-record">Hiển thị
+                    <span id="record-begin" class="display-record-number">1</span> - <span id="record-end" class="display-record-number">20</span> / <span id="total-records" class="display-record-number">100</span> lao động
+                </span>
+                <div class="navigation">
+                    <i class="fa-solid fa-angles-left control-page"></i>
+                    <i class="fa-solid fa-chevron-left control-page"></i>
+                    <button class="navigation-page-number">1</button>
+                    <button class="navigation-page-number">2</button>
+                    <button class="navigation-page-number">3</button>
+                    <span class="navigation-page-space"> ... </span>
+                    <button class="navigation-page-number">50</button>
+                    <i class="fa-solid fa-chevron-right control-page"></i>
+                    <i class="fa-solid fa-angles-right control-page"></i>
+                </div>
+                <select class="employee-number-selecter input-filter" name="" id="">
+                    <option value="10" selected>10 nhân viên / trang</option>
+                    <option value="20">20 nhân viên / trang</option>
+                    <option value="30">30 nhân viên / trang</option>
+                </select>
+            </div>
+        </div>
+    </div> 
+
+    <div class="overlay form-ovelay">
+        <div class="form" action="">
+            <div class="form-header">
+                <h3 class="form-header-heading">THÔNG TIN NHÂN VIÊN</h3>
+                <div class="close-btn form-close-btn"><i class="fa-solid fa-xmark close-icon"></i></div>
+            </div>
+            <div class="form-content">
+                <img class="form-avatar" src="../Resource/img/default-avatar.jpg" alt="">
+                <div class="form-main">
+                    <div class="form-main-a">
+                        <h4 class="form-main-heading">A.THÔNG TIN CHUNG : </h4>
+                        <div class="form-main-content">
+                            <div class="form-area">
+                                <label for="employeeCode">Mã nhân viên</label>
+                                <input id="employeeCode" name="employeeCode" class="form-input" type="text" rules="required employeeCode">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="employeeName">Họ và tên</label>
+                                <input id="employeeName" name="employeeName" class="form-input" type="text" rules="required">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="dateOfBirth">Ngày sinh</label>
+                                <input id="dateOfBirth" name="dateOfBirth" class="form-input" type="date">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="gender">Giới tính</label>
+                                <select id="gender" class="form-input" name="gender">
+                                    <option value="">--- Chọn giới tính ---</option>
+                                    <option value="0">Nam</option>
+                                    <option value="1">Nữ</option>
+                                    <option value="2">Khác</option>
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="identityNumber">Số CMND/CCCD</label>
+                                <input id="identityNumber" name="identityNumber" class="form-input" type="text" rules="required identityNumber">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="identityIssuedDate">Ngày cấp</label>
+                                <input id="identityIssuedDate" name="identityIssuedDate" class="form-input" type="date">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="identityIssuedPlace">Nơi cấp</label>
+                                <input id="identityIssuedPlace" name="identityIssuedPlace" class="form-input" type="text">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="email">Email</label>
+                                <input id="email" name="email" class="form-input" type="text" rules="required email">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="phoneNumber">Số điện thoại</label>
+                                <input id="phoneNumber" name="phoneNumber" class="form-input" type="text" rules="required phoneNumber">
+                                <span class="error-message"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-main-b">
+                        <h4 class="form-main-heading">B.THÔNG TIN CỒNG VIỆC : </h4>
+                        <div class="form-main-content">
+                            <div class="form-area">
+                                <label for="positionID">Vị trí</label>
+                                <select id="positionID" name="positionID" class="form-input position-combobox">
+                                    <option value="">--- Chọn vị trí ---</option>
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="departmentID">Phòng ban</label>
+                                <select id="departmentID" name="departmentID" class="form-input department-combobox">
+                                    <option value="">--- Chọn phòng ban ---</option>
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="taxCode">Mã số thuế cá nhân</label>
+                                <input id="taxCode" name="taxCode" class="form-input" type="text">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="salary">Mức lương cơ bản</label>
+                                <input id="salary" name="salary" class="form-input" type="text">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="joiningDate">Ngày gia nhập công ty</label>
+                                <input id="joiningDate" name="joiningDate" class="form-input" type="date">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-area">
+                                <label for="workStatus">Tình trạng công việc</label>
+                                <select id="workStatus" name="workStatus" class="form-input">
+                                    <option value="">--- Tình trạng công việc ---</option>
+                                    <option value="0">Đã nghỉ việc</option>
+                                    <option value="1">Đang làm việc</option>
+                                    <option value="2">Thử việc</option>
+
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-footer">
+                <button class="close-btn cancel-btn mobile-width">Hủy</button>
+                <button class="save-btn special-btn mobile-width">Lưu</button>
+            </div>
+        </div>
+    </div>
+    <div class="overlay dialog-ovelay">
+        <div class="dialog">
+            <div class="dialog-content">
+                <div class="dialog-icon">
+                    <!-- <i class="fa-sharp fa-solid fa-circle-check"></i> -->
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <div class="dialog-message"></div>
+            </div>
+            <div class="dialog-footer">
+                <button class="cancel-btn close-btn" type="submit">Hủy</button>
+                <button class="conform-btn">OK</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/format.js"></script>
+    <script src="../js/employee.js"></script>
+    <script src="../js/responsive.js"></script>
+    <script src="../js/validate.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>
