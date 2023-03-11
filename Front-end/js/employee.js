@@ -1,4 +1,6 @@
 function initEmployee(){
+    changPage()
+    filterChange()
     LoadDataTableAndEventWithRowEmployee()
     DeleteEmployee()
     showFormInsertEmployee()
@@ -13,54 +15,116 @@ let CurentEditEmployeeID = ''
 
 // Load table và đợi load hoàn toàn tr để bắt sự kiện với tr
 function LoadDataTableAndEventWithRowEmployee(){
+    // Lấy ra các thông tin filter để lọc nhân viên và phân trang
+    let keyWorkFilter = document.getElementById('filter-text-input').value
+    let positionFilter = document.getElementById('filter-cbb-position').value
+    let departmentFilter = document.getElementById('filter-cbb-department').value
+    let pageSize = document.getElementById('filter-employees-number').value
+    let curentPage = document.querySelector('.current-page')
+
+    // Hiển thị các thông số của bản ghi vào phần góc cuối bên trái 
+    let recordBeginInPage = document.getElementById('record-begin-in-page')
+    let recordEndInPage = document.getElementById('record-end-in-page')
+    let totalRocords = document.getElementById('total-records')
+
+    // Lức mới bắt đầu vào trang chưa tạo thanh phân trang thì mặc định curentPage = 1 để gọi API và tạo
+    if(!curentPage){
+        curentPage = 1
+    }
+    else
+        curentPage = curentPage.innerText
+
     let tableFields = document.querySelectorAll('.content-table thead th')
     let tableBody = document.querySelector('.content-table tbody')
     tableBody.innerHTML = ""
-    fetch('https://localhost:44328/api/Employees')
+    fetch(`https://localhost:44328/api/Employees/filter?keyWord=${keyWorkFilter}&positionID=${positionFilter}&departmentID=${departmentFilter}&pageNumber=${curentPage}&pageSize=${pageSize}`)
     .then(res=>res.json())
     .then(employees=>{
-        let tableFields = document.querySelectorAll('.content-table thead th')
-        let tableBody = document.querySelector('.content-table tbody')
-        employees.forEach(employee => {
-            let tr = document.createElement('tr')
-            let tds = ''
-            tableFields.forEach(field=>{
-                // Lấy ra các tên trường dữ liệu
-                let fieldName = field.getAttribute('field')
-                let value = employee[fieldName]
-                if(value != null || value != undefined){
-                    switch(fieldName) {
-                        case 'employeeName':
-                            value = Format.name(value)
-                        break;
-                        case 'gender':
-                            value = Format.gender(value)
-                        break;
-                        case 'dateOfBirth':
-                            value = Format.date(value)
-                        break;
-                        case 'salary':
-                            value = Format.vietnameDong(value)
-                        break;
-                        case 'workStatus':
-                            value = Format.workStatus(value)
-                        break;
-                      }
-                }
-                tds += `<td>${value || ""}</td>`
-            })
-            tr.innerHTML = tds
-            tr.setAttribute('data-employee-id', employee.employeeID)
-            tableBody.appendChild(tr)
+        if(employees.totalCount > 0){
+            let tableFields = document.querySelectorAll('.content-table thead th')
+            let tableBody = document.querySelector('.content-table tbody')
+            employees.data.forEach(employee => {
+                let tr = document.createElement('tr')
+                let tds = ''
+                tableFields.forEach(field=>{
+                    // Lấy ra các tên trường dữ liệu
+                    let fieldName = field.getAttribute('field')
+                    let value = employee[fieldName]
+                    if(value != null || value != undefined){
+                        // format các trường dữ liệu để hiển thị
+                        switch(fieldName) {
+                            case 'employeeName':
+                                value = Format.name(value)
+                            break;
+                            case 'gender':
+                                value = Format.gender(value)
+                            break;
+                            case 'dateOfBirth':
+                                value = Format.date(value)
+                            break;
+                            case 'salary':
+                                value = Format.vietnameDong(value)
+                            break;
+                            case 'workStatus':
+                                value = Format.workStatus(value)
+                            break;
+                        }
+                    }
+                    tds += `<td>${value || ""}</td>`
+                })
+                tr.innerHTML = tds
+                tr.setAttribute('data-employee-id', employee.employeeID)
+                tableBody.appendChild(tr)
+
+                recordBeginInPage.innerText = (curentPage - 1) * pageSize + 1
+
+                // Nếu tổng số lượng bản ghi nhỏ hơn số lượng chọn hiển thị thì hiển thị tổng số lượng bản ghi
+                if((curentPage * pageSize) > employees.totalCount)
+                    recordEndInPage.innerText = employees.totalCount 
+                else 
+                    recordEndInPage.innerText = curentPage * pageSize
+                    
+                totalRocords.innerText = employees.totalCount
+
+            });
 
             // Thêm sự kiện cho các row đảm bảo tất cả các row loaded thì mới bắt sự kiện
             selectARow()
             showFormEditEmployee()
-        });
+        }
+
+        // Nếu tổng số bản ghi trả về là 0 thì hiển thị tất cả số 0
+        else{
+            recordBeginInPage.innerText = 0
+            recordEndInPage.innerText = 0
+            totalRocords.innerText = 0
+        }
+        //  Tạo thanh phân trang
+        createPagination(Math.ceil(employees.totalCount/pageSize), curentPage)
     })
     .catch(err => {
+        console.error(err)
         showDialog('danger', "Có lỗi xảy ra với hệ thống vui lòng thử lại sau", 1)
     });
+}
+
+// Bắt sự kiện với các filter để lọc và phân trang
+function filterChange(){
+    let inputFilters = document.querySelectorAll('.input-filter')
+    inputFilters.forEach(filter=>{
+        filter.onchange = LoadDataTableAndEventWithRowEmployee
+    })
+}
+
+
+function changPage(){
+    let navigation = document.querySelector('.navigation')
+    navigation.onclick = function(e){
+        // Bắt sự kiện khi e.target là các nút
+        if(!e.target.classList.contains('navigation') && !e.target.classList.contains('space-page-btn')){
+            LoadDataTableAndEventWithRowEmployee()
+        }
+    }
 }
 
 // Highline 1 dòng bằng click

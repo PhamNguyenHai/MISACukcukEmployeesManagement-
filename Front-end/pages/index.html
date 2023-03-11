@@ -74,11 +74,11 @@
 
                 <div class="content-function">
                     <div class="content-function-filter">
-                        <input class="search-bar input-filter" type="text" placeholder="Tìm kiếm theo mã, tên hoặc số điện thoại">
-                        <select class="position-combobox input-filter" name="" id="">
+                        <input id="filter-text-input" class="search-bar input-filter" type="text" placeholder="Tìm kiếm theo mã, tên hoặc số điện thoại">
+                        <select id="filter-cbb-position" class="position-combobox input-filter " name="" id="">
                             <option value="">--- Chọn vị trí ---</option>
                         </select>
-                        <select class="department-combobox input-filter" name="" id="">
+                        <select id="filter-cbb-department" class="department-combobox input-filter" name="" id="">
                             <option value="">--- Chọn phòng ban ---</option>
                         </select>
                     </div>
@@ -111,20 +111,13 @@
 
             <div class="footer">
                 <span class="display-record">Hiển thị
-                    <span id="record-begin" class="display-record-number">1</span> - <span id="record-end" class="display-record-number">20</span> / <span id="total-records" class="display-record-number">100</span> lao động
+                    <span id="record-begin-in-page" class="display-record-number"></span> - <span id="record-end-in-page" class="display-record-number"></span> / <span id="total-records" class="display-record-number"></span> lao động
                 </span>
                 <div class="navigation">
-                    <i class="fa-solid fa-angles-left control-page"></i>
-                    <i class="fa-solid fa-chevron-left control-page"></i>
-                    <button class="navigation-page-number">1</button>
-                    <button class="navigation-page-number">2</button>
-                    <button class="navigation-page-number">3</button>
-                    <span class="navigation-page-space"> ... </span>
-                    <button class="navigation-page-number">50</button>
-                    <i class="fa-solid fa-chevron-right control-page"></i>
-                    <i class="fa-solid fa-angles-right control-page"></i>
+                    <!-- Render navigation paging from js -->
                 </div>
-                <select class="employee-number-selecter input-filter" name="" id="">
+
+                <select id="filter-employees-number" class="employee-number-selecter input-filter" name="" id="">
                     <option value="10" selected>10 nhân viên / trang</option>
                     <option value="20">20 nhân viên / trang</option>
                     <option value="30">30 nhân viên / trang</option>
@@ -255,7 +248,6 @@
         <div class="dialog">
             <div class="dialog-content">
                 <div class="dialog-icon">
-                    <!-- <i class="fa-sharp fa-solid fa-circle-check"></i> -->
                     <i class="fa-solid fa-circle-exclamation"></i>
                 </div>
                 <div class="dialog-message"></div>
@@ -266,6 +258,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/pagingNavigation.js"></script>
     <script src="../js/format.js"></script>
     <script src="../js/employee.js"></script>
     <script src="../js/responsive.js"></script>

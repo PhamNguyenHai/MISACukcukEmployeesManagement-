@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dapper;
 using MySqlConnector;
 using EmployeesManagementAPI.Models;
+using EmployeesManagementAPI.Models.DTO;
 
 /*
  GetbyID : 
@@ -34,10 +35,10 @@ namespace EmployeesManagementAPI.Controllers
         {
             try
             {
-                string ConnectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
-                var MySQLConnection = new MySqlConnection(ConnectionString);
-                string Command = "SELECT * FROM employee e ORDER BY e.EmployeeCode DESC";
-                var employees = MySQLConnection.Query<Employee>(Command);
+                string connectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
+                var mySQLConnection = new MySqlConnection(connectionString);
+                string command = "SELECT * FROM employee e ORDER BY e.EmployeeCode DESC";
+                var employees = mySQLConnection.Query<Employee>(command);
 
                 if (employees != null)
                     return Ok(employees);
@@ -47,7 +48,79 @@ namespace EmployeesManagementAPI.Controllers
             catch(Exception ex)
             {
                 Console.Write(ex.ToString());
-                return StatusCode(StatusCodes.Status500InternalServerError, "e01");
+                return StatusCode(StatusCodes.Status400BadRequest, "e01");
+            }
+        }
+
+        [HttpGet("filter")]
+        public IActionResult PagingEmployeesAndFilter(
+                [FromQuery] string? keyWord,
+                [FromQuery] Guid? positionID,
+                [FromQuery] Guid? departmentID,
+                [FromQuery] int pageNumber=1,
+                [FromQuery] int pageSize=10)
+        {
+            try
+            {
+                string connectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
+                var mySQLConnection = new MySqlConnection(connectionString);
+
+                //Ten stored procedure 
+                var storedProcedureName = "Proc_Employee_GetPaging";
+
+                // Chuan bi tham so dau vao cho stored prodecure
+                var parametters = new DynamicParameters();
+                parametters.Add("@v_Offset", (pageNumber - 1) * pageSize);
+                parametters.Add("@v_Limit", pageSize);
+                parametters.Add("@v_Sort", "ModifieldDate DESC");
+
+                string whereCommand = string.Empty;
+                List<string> orWhereCommand = new List<string>();
+                List<string> andWhereCommand = new List<string>();
+
+                if (keyWord != null)
+                {
+                    orWhereCommand.Add($"EmployeeCode LIKE '%{keyWord}%'");
+                    orWhereCommand.Add($"EmployeeName LIKE '%{keyWord}%'");
+                    orWhereCommand.Add($"PhoneNumber LIKE '%{keyWord}%'");
+                }
+                if (orWhereCommand.Count > 0)
+                    whereCommand = $"({ string.Join(" OR ", orWhereCommand)})";
+
+                if (positionID != null)
+                {
+                    andWhereCommand.Add($"PositionID = '{positionID}'");
+                }
+                if (departmentID != null)
+                {
+                    andWhereCommand.Add($"DepartmentID = '{departmentID}'");
+                }
+                if (andWhereCommand.Count > 0)
+                {
+                    if (whereCommand == string.Empty)
+                        whereCommand += string.Join(" AND ", andWhereCommand);
+                    else
+                        whereCommand += $" AND {string.Join(" AND ", andWhereCommand)}";
+                }
+                parametters.Add("@v_Where", whereCommand);
+
+                var multipleResults = mySQLConnection.QueryMultiple(storedProcedureName, parametters, commandType: System.Data.CommandType.StoredProcedure);
+
+                if (multipleResults != null)
+                {
+                    return Ok(new GetPaging()
+                    {
+                        Data = multipleResults.Read<Employee>().ToList(),
+                        TotalCount = multipleResults.Read<long>().FirstOrDefault()
+                    });
+                }
+                else
+                    return StatusCode(StatusCodes.Status400BadRequest, "e02");
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+                return StatusCode(StatusCodes.Status400BadRequest, ex.ToString());
             }
         }
 
@@ -56,12 +129,12 @@ namespace EmployeesManagementAPI.Controllers
         {
             try
             {
-                string ConnectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
-                var MySQLConnection = new MySqlConnection(ConnectionString);
-                string Command = "SELECT * FROM cukcuk_employees_management.employee e WHERE EmployeeID = @employeeID";
+                string connectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
+                var mySQLConnection = new MySqlConnection(connectionString);
+                string command = "SELECT * FROM cukcuk_employees_management.employee e WHERE EmployeeID = @employeeID";
                 var parametters = new DynamicParameters();
                 parametters.Add("@employeeID", employeeID);
-                var employee = MySQLConnection.QueryFirstOrDefault<Employee>(Command, parametters);
+                var employee = mySQLConnection.QueryFirstOrDefault<Employee>(command, parametters);
 
                 if (employee != null)
                     return Ok(employee);
@@ -71,7 +144,7 @@ namespace EmployeesManagementAPI.Controllers
             catch (Exception ex)
             {
                 Console.Write(ex.ToString());
-                return StatusCode(StatusCodes.Status500InternalServerError, "e01");
+                return StatusCode(StatusCodes.Status400BadRequest, "e01");
             }
         }
 
@@ -80,16 +153,16 @@ namespace EmployeesManagementAPI.Controllers
         {
             try
             {
-                string ConnectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
-                var MySQLConnection = new MySqlConnection(ConnectionString);
-                string Command = "SELECT MAX(EmployeeCode) FROM employee";
-                var MaxEmployeeCode = MySQLConnection.QueryFirstOrDefault<string>(Command);
+                string connectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
+                var mySQLConnection = new MySqlConnection(connectionString);
+                string command = "SELECT MAX(EmployeeCode) FROM employee";
+                var maxEmployeeCode = mySQLConnection.QueryFirstOrDefault<string>(command);
 
-                if (MaxEmployeeCode != null)
+                if (maxEmployeeCode != null)
                 {
-                    int MaxNumber = int.Parse(MaxEmployeeCode.Replace("NV", "")) + 1;
-                    MaxEmployeeCode = "NV" + MaxNumber;
-                    return Ok(MaxEmployeeCode);
+                    int MaxNumber = int.Parse(maxEmployeeCode.Replace("NV", "")) + 1;
+                    maxEmployeeCode = "NV" + MaxNumber;
+                    return Ok(maxEmployeeCode);
                 }
                 else
                     return NotFound("e02");
@@ -97,7 +170,7 @@ namespace EmployeesManagementAPI.Controllers
             catch (Exception ex)
             {
                 Console.Write(ex.ToString());
-                return StatusCode(StatusCodes.Status500InternalServerError, "e01");
+                return StatusCode(StatusCodes.Status400BadRequest, "e01");
             }
         }
 
@@ -106,10 +179,10 @@ namespace EmployeesManagementAPI.Controllers
         {
             try
             {
-                string ConnectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
-                var MySQLConnection = new MySqlConnection(ConnectionString);
-                string Command = "INSERT cukcuk_employees_management.employee(EmployeeID, EmployeeCode, EmployeeName, DateOfBirth, Gender, IdentityNumber, IdentityIssuedDate, IdentityIssuedPlace, Email, PhoneNumber, PositionID, PositionName, DepartmentID, DepartmentName, TaxCode, Salary, JoiningDate, WorkStatus, CreatedDate, CreatedBy, ModifieldDate, ModifieldBy)" +
-                                 "VALUES (@EmployeeID, @EmployeeCode, @EmployeeName, @DateOfBirth, @Gender, @IdentityNumber, @IdentityIssuedDate, @IdentityIssuedPlace, @Email, @PhoneNumber, @PositionID, @PositionName, @DepartmentID, @DepartmentName, @TaxCode, @Salary, @JoiningDate, @WorkStatus, CURDATE(), @CreatedBy, CURDATE(), @ModifieldBy)";
+                string connectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
+                var mySQLConnection = new MySqlConnection(connectionString);
+                string command = "INSERT cukcuk_employees_management.employee(EmployeeID, EmployeeCode, EmployeeName, DateOfBirth, Gender, IdentityNumber, IdentityIssuedDate, IdentityIssuedPlace, Email, PhoneNumber, PositionID, PositionName, DepartmentID, DepartmentName, TaxCode, Salary, JoiningDate, WorkStatus, CreatedDate, CreatedBy, ModifieldDate, ModifieldBy)" +
+                                 "VALUES (@EmployeeID, @EmployeeCode, @EmployeeName, @DateOfBirth, @Gender, @IdentityNumber, @IdentityIssuedDate, @IdentityIssuedPlace, @Email, @PhoneNumber, @PositionID, @PositionName, @DepartmentID, @DepartmentName, @TaxCode, @Salary, @JoiningDate, @WorkStatus, @CreatedDate, @CreatedBy, @ModifieldDate, @ModifieldBy)";
                 var parametters = new DynamicParameters();
                 newEmployee.EmployeeID = Guid.NewGuid();
                 parametters.Add("@EmployeeID",          newEmployee.EmployeeID);
@@ -118,7 +191,7 @@ namespace EmployeesManagementAPI.Controllers
                 parametters.Add("@DateOfBirth",         newEmployee.DateOfBirth);
                 parametters.Add("@Gender",              newEmployee.Gender);
                 parametters.Add("@IdentityNumber",      newEmployee.IdentityNumber);
-                parametters.Add("@IdentityIssuedDate", newEmployee.IdentityIssuedDate);
+                parametters.Add("@IdentityIssuedDate",  newEmployee.IdentityIssuedDate);
                 parametters.Add("@IdentityIssuedPlace", newEmployee.IdentityIssuedPlace);
                 parametters.Add("@Email",               newEmployee.Email);
                 parametters.Add("@PhoneNumber",         newEmployee.PhoneNumber);
@@ -132,15 +205,15 @@ namespace EmployeesManagementAPI.Controllers
                 parametters.Add("@WorkStatus",          newEmployee.WorkStatus);
                 newEmployee.CreatedBy = "Phạm Nguyễn Nguyên Hải";
                 newEmployee.ModifieldBy = "Phạm Nguyễn Nguyên Hải";
-                //parametters.Add("@CreatedDate",         newEmployee.CreatedDate);
+                parametters.Add("@CreatedDate",         DateTime.Now);
                 parametters.Add("@CreatedBy",           newEmployee.CreatedBy);
-                //parametters.Add("@ModifieldDate",       newEmployee.ModifieldDate);
+                parametters.Add("@ModifieldDate",       DateTime.Now);
                 parametters.Add("@ModifieldBy",         newEmployee.ModifieldBy);
 
-                var rowAffected =  MySQLConnection.Execute(Command, parametters);
+                var rowAffected =  mySQLConnection.Execute(command, parametters);
 
                 if (rowAffected > 0)
-                    return StatusCode(StatusCodes.Status201Created, newEmployee);
+                    return StatusCode(StatusCodes.Status201Created, newEmployee.EmployeeID);
                 else
                     return StatusCode(StatusCodes.Status400BadRequest, "e03");
             }
@@ -159,7 +232,7 @@ namespace EmployeesManagementAPI.Controllers
             catch (Exception ex)
             {
                 Console.Write(ex.ToString());
-                return StatusCode(StatusCodes.Status500InternalServerError, "e01");
+                return StatusCode(StatusCodes.Status400BadRequest, "e01");
             }
         }
 
@@ -168,9 +241,9 @@ namespace EmployeesManagementAPI.Controllers
         {
             try
             {
-                string ConnectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
-                var MySQLConnection = new MySqlConnection(ConnectionString);
-                string Command = "UPDATE cukcuk_employees_management.employee " +
+                string connectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
+                var mySQLConnection = new MySqlConnection(connectionString);
+                string command = "UPDATE cukcuk_employees_management.employee " +
                                  "SET EmployeeID = @EmployeeID, " +
                                  "EmployeeCode = @EmployeeCode, " +
                                  "EmployeeName = @EmployeeName, " +
@@ -189,7 +262,7 @@ namespace EmployeesManagementAPI.Controllers
                                  "Salary = @Salary, " +
                                  "JoiningDate = @JoiningDate, " +
                                  "WorkStatus = @WorkStatus, " +
-                                 "ModifieldDate = CURDATE(), " +
+                                 "ModifieldDate = @ModifieldDate, " +
                                  "ModifieldBy = @ModifieldBy " +
                                  "WHERE EmployeeID = @employeeID";
                 var parametters = new DynamicParameters();
@@ -213,12 +286,13 @@ namespace EmployeesManagementAPI.Controllers
                 parametters.Add("@Salary",              updateEmployee.Salary);
                 parametters.Add("@JoiningDate",         updateEmployee.JoiningDate);
                 parametters.Add("@WorkStatus",          updateEmployee.WorkStatus);
+                parametters.Add("@ModifieldDate",       DateTime.Now);
                 parametters.Add("@ModifieldBy",         updateEmployee.ModifieldBy);
                 parametters.Add("@employeeID",          employeeID);
 
-                var rowAffected = MySQLConnection.Execute(Command, parametters);
+                var rowAffected = mySQLConnection.Execute(command, parametters);
                 if (rowAffected > 0)
-                    return StatusCode(StatusCodes.Status200OK, updateEmployee);
+                    return StatusCode(StatusCodes.Status200OK, updateEmployee.EmployeeID);
                 else
                     return StatusCode(StatusCodes.Status404NotFound, "e02");
             }
@@ -237,7 +311,7 @@ namespace EmployeesManagementAPI.Controllers
             catch (Exception ex)
             {
                 Console.Write(ex.ToString());
-                return StatusCode(StatusCodes.Status500InternalServerError, "e01");
+                return StatusCode(StatusCodes.Status400BadRequest, "e01");
             }
         }
 
@@ -246,14 +320,14 @@ namespace EmployeesManagementAPI.Controllers
         {
             try
             {
-                string ConnectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
-                var MySQLConnection = new MySqlConnection(ConnectionString);
-                string Command = "DELETE FROM employee WHERE EmployeeID = @employeeID";
+                string connectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
+                var mySQLConnection = new MySqlConnection(connectionString);
+                string command = "DELETE FROM employee WHERE EmployeeID = @employeeID";
 
                 var parametters = new DynamicParameters();
                 parametters.Add("@employeeID", employeeID);
 
-                var rowAffected = MySQLConnection.Execute(Command, parametters);
+                var rowAffected = mySQLConnection.Execute(command, parametters);
                 if (rowAffected > 0)
                     return StatusCode(StatusCodes.Status200OK);
                 else
@@ -262,7 +336,7 @@ namespace EmployeesManagementAPI.Controllers
             catch (Exception ex)
             {
                 Console.Write(ex.ToString());
-                return StatusCode(StatusCodes.Status500InternalServerError, "e01");
+                return StatusCode(StatusCodes.Status400BadRequest, "e01");
             }
         }
     }

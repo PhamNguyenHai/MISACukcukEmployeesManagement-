@@ -15,10 +15,10 @@ namespace EmployeesManagementAPI.Controllers
         {
             try
             {
-                string ConnectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
-                var MySQLConnection = new MySqlConnection(ConnectionString);
-                string Command = "SELECT * FROM cukcuk_employees_management.positions p ORDER BY p.PositionCode";
-                var positions = MySQLConnection.Query<Position>(Command);
+                string connectionString = "Server=localhost;Port=3306;Database=cukcuk_employees_management;Uid=root;Pwd=25122002;";
+                var mySQLConnection = new MySqlConnection(connectionString);
+                string command = "SELECT * FROM cukcuk_employees_management.positions p ORDER BY p.PositionCode";
+                var positions = mySQLConnection.Query<Position>(command);
 
                 if (positions != null)
                     return Ok(positions);
@@ -28,7 +28,7 @@ namespace EmployeesManagementAPI.Controllers
             catch (Exception ex)
             {
                 Console.Write(ex.ToString());
-                return StatusCode(StatusCodes.Status500InternalServerError, "e01");
+                return StatusCode(StatusCodes.Status400BadRequest, "e01");
             }
         }
     }
